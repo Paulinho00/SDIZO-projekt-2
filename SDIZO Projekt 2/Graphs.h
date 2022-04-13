@@ -29,6 +29,10 @@ public:
 	void shortestPathBellmanFord();
 	//Wyznaczanie maksymalnego przep³ywu algorytmem Forda Fulkersona
 	void maximumFlowFordFulkerson();
+
+	int** getWeightMatrix();
+	int getNumberOfEdges();
+	int getNumberOfVertices();
 private:
 	//Usuwa graf
 	void dropGraph();
@@ -38,16 +42,29 @@ private:
 	void allocateArray(int numberOfVertices);
 };
 
+struct ListElement {
+	int key;
+	int weight;
+	int currentFlow;
+	ListElement* nextElement;
+
+	ListElement(int key, int weight);
+	~ListElement();
+};
+
 //Graf w reprezentacji listowej
 class GraphList{
 	//Wskazniki na listy s¹siadów wierzcho³ków
-	int* pointersToList;
+	ListElement** pointersToList;
+	int numberOfVertices;
+	int numberOfEdges;
+
 public:
-	GraphList(int numberOfVertices);
+	GraphList();
 	~GraphList();
 
 	//Losowe generowanie grafu
-	void generateGraph(int vertices, float density);
+	void generateGraph(int** weightMatrix, int numberOfVertices);
 	//Odczyt grafu z pliku
 	void readFromFile(std::string fileName);
 	//Wyœwietlenie grafu w odpowiedniej reprezentacji
@@ -62,4 +79,9 @@ public:
 	void shortestPathBellmanFord();
 	//Wyznaczanie maksymalnego przep³ywu algorytmem Forda Fulkersona
 	void maximumFlowFordFulkerson();
+
+private:
+
+	void dropGraph();
+	void addEdge(int firstVertex, int secondVertex, int weight);
 };

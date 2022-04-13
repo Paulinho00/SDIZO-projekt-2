@@ -22,13 +22,14 @@ int readUserInput() {
 
 //Menu dla problemu mst
 void mstMenu() {
-	GraphMatrix g;
+	GraphMatrix graphMatrix;
+	GraphList graphList;
 	while (1) {
 		//Wyswietlenie opcji w menu
 		cout << "\nWybierz strukture:\n";
 		cout << "1. Wczytywanie danych z pliku\n";
 		cout << "2. Generowanie losowego grafu\n";
-		cout << "3. Wyœwietlanie grafu macierzowo i listowo\n";
+		cout << "3. Wyswietlanie grafu macierzowo i listowo\n";
 		cout << "4. Algorytm Kruskala\n";
 		cout << "5. Algorytm Prima\n";
 		cout << "0. Cofnij\n";
@@ -58,9 +59,16 @@ void mstMenu() {
 				cout << "Nieprawidlowe dane\n";
 				break;
 			}
-			g.generateGraph(userInput, density);
+			graphMatrix.generateGraph(userInput, density);
+			graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
 		}; break;
-		case 3: g.showGraph(); break;
+		case 3: {
+			cout << "Reprezentacja macierzowa:\n";
+			graphMatrix.showGraph();
+
+			cout << "\nReprezentacja listowa:\n";
+			graphList.showGraph();
+		} break;
 		case 0: return;
 		default: cout << "Nie ma takiej opcji\n";
 		};

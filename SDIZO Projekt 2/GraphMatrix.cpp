@@ -106,3 +106,14 @@ void GraphMatrix::allocateArray(int numberOfVertices) {
 	}
 }
 
+int** GraphMatrix::getWeightMatrix() {
+	return weightMatrix;
+}
+
+int GraphMatrix::getNumberOfEdges() {
+	return numberOfEdges;
+}
+
+int GraphMatrix::getNumberOfVertices() {
+	return numberOfVertices;
+}
