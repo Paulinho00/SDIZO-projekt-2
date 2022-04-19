@@ -76,6 +76,62 @@ void mstMenu() {
 	}
 }
 
+//Menu dla problemu mst
+void shortestPathMenu() {
+	GraphMatrix graphMatrix(true);
+	GraphList graphList(true);
+	while (1) {
+		//Wyswietlenie opcji w menu
+		cout << "\nWybierz strukture:\n";
+		cout << "1. Wczytywanie danych z pliku\n";
+		cout << "2. Generowanie losowego grafu\n";
+		cout << "3. Wyswietlanie grafu macierzowo i listowo\n";
+		cout << "4. Algorytm Dijkstry\n";
+		cout << "5. Algorytm Bellmana-Forda\n";
+		cout << "0. Cofnij\n";
+		cout << "Podaj odpowiednia liczbe: \n";
+
+
+		//Odczyt wyboru uzytkownika
+		int userInput;
+		userInput = readUserInput();
+		if (userInput == -1) {
+			continue;
+		}
+
+		//Uruchomienie odpowiedniej funkcji w zaleznosci od wyboru
+		switch (userInput) {
+		case 2: {
+			cout << "Podaj ilosc wierzcholkow: ";
+			userInput = readUserInput();
+			if (userInput <= 0) {
+				cout << "Nieprawdilowe dane\n";
+				break;
+			}
+			cout << "Podaj gestosc grafu (od 0% do %100): ";
+			int percent = readUserInput();
+			float density = percent / 100.0;
+			if (density < 0 && density > 1.0) {
+				cout << "Nieprawidlowe dane\n";
+				break;
+			}
+			graphMatrix.generateGraph(userInput, density);
+			graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
+		}; break;
+		case 3: {
+			cout << "Reprezentacja macierzowa:\n";
+			graphMatrix.showGraph();
+
+			cout << "\nReprezentacja listowa:\n";
+			graphList.showGraph();
+		} break;
+		case 0: return;
+		default: cout << "Nie ma takiej opcji\n";
+		};
+
+	}
+}
+
 void mainMenu() {
 	while (1) {
 		//Wyswietlenie opcji w menu
@@ -97,6 +153,7 @@ void mainMenu() {
 		//Uruchomienie odpowiedniej funkcji w zaleznosci od wyboru
 		switch (userInput) {
 		case 1: mstMenu(); break;
+		case 2: shortestPathMenu(); break;
 		case 0: return;
 		default: cout << "Nie ma takiej opcji\n";
 		};
