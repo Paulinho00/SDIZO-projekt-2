@@ -22,8 +22,8 @@ int readUserInput() {
 
 //Menu dla problemu mst
 void mstMenu() {
-	GraphMatrix graphMatrix;
-	GraphList graphList;
+	GraphMatrix graphMatrix(false);
+	GraphList graphList(false);
 	while (1) {
 		//Wyswietlenie opcji w menu
 		cout << "\nWybierz strukture:\n";

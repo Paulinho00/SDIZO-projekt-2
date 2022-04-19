@@ -13,10 +13,11 @@ ListElement::~ListElement() {
 	delete nextElement;
 }
 
-GraphList::GraphList() {
+GraphList::GraphList(bool isDirected) {
 	numberOfEdges = 0;
 	numberOfVertices = 0;
 	pointersToList = nullptr;
+	this->isDirected = isDirected;
 }
 
 GraphList::~GraphList() {
@@ -42,8 +43,44 @@ void GraphList::generateGraph(int** weightMatrix, int numberOfVertices) {
 	}
 }
 
-//Wyœwietlenie grafu w odpowiedniej reprezentacji
+//Wyœwietlenie grafu
 void GraphList::showGraph() {
+	if (isDirected) { showDirectedGraph(); }
+	else { showUndirectedGraph(); }
+}
+
+//Wyœwietlenie grafu w odpowiedniej reprezentacji
+void GraphList::showDirectedGraph() {
+	cout << "\n";
+	for (int i = 0; i < numberOfVertices; i++) {
+		cout << i << ": ";
+		ListElement* list = pointersToList[i];
+		if (list != nullptr) {
+			cout << "(" << list->key;
+			if (list->weight < 0) {
+				cout << ", k)";
+			}
+			else {
+				cout << ", p)";
+			}
+			list = list->nextElement;
+			while (list != nullptr) {
+				cout << "-> (" << list->key;
+				if (list->weight < 0) {
+					cout << ", k)";
+				}
+				else {
+					cout << ", p)";
+				}
+				list = list->nextElement;
+			}
+		}
+		cout << "\n";
+	}
+}
+
+//Wyœwietlenie grafu w odpowiedniej reprezentacji
+void GraphList::showUndirectedGraph() {
 	cout << "\n";
 	for (int i = 0; i < numberOfVertices; i++) {
 		cout << i << ": ";
@@ -52,7 +89,7 @@ void GraphList::showGraph() {
 			cout << list->key;
 			list = list->nextElement;
 			while (list != nullptr) {
-				cout << "->" << list->key;
+				cout << "-> " << list->key;
 				list = list->nextElement;
 			}
 		}
@@ -72,7 +109,8 @@ void GraphList::addEdge(int firstVertex, int secondVertex, int weight) {
 		firstVertexElement->nextElement = new ListElement(secondVertex, weight);
 	}
 
-	
+	if (isDirected) { weight *= -1; }
+
 	if (pointersToList[secondVertex] == nullptr) {
 		pointersToList[secondVertex] = new ListElement(firstVertex, weight);
 	}

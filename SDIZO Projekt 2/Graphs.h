@@ -9,9 +9,10 @@ class GraphMatrix{
 	int numberOfVertices;
 	//Liczba krawêdzi
 	int numberOfEdges;
+	//Czy jest skierowany
+	bool isDirected;
 public:
-	GraphMatrix(int numberOfVertices);
-	GraphMatrix();
+	GraphMatrix(bool isDirected);
 	~GraphMatrix();
 	//Losowe generowanie grafu
 	void generateGraph(int vertices, float density);
@@ -58,16 +59,18 @@ class GraphList{
 	ListElement** pointersToList;
 	int numberOfVertices;
 	int numberOfEdges;
+	//Czy jest skierowany
+	bool isDirected;
 
 public:
-	GraphList();
+	GraphList(bool isDirected);
 	~GraphList();
 
 	//Losowe generowanie grafu
 	void generateGraph(int** weightMatrix, int numberOfVertices);
 	//Odczyt grafu z pliku
 	void readFromFile(std::string fileName);
-	//Wyœwietlenie grafu w odpowiedniej reprezentacji
+	//Wyœwietlenie grafu
 	void showGraph();
 	//Wyznaczanie minimalnego drzewa rozpinaj¹cego algorytmem Kruskala
 	void mstKruskal();
@@ -81,7 +84,10 @@ public:
 	void maximumFlowFordFulkerson();
 
 private:
-
+	//Wyœwietlenie grafu skierowanego w odpowiedniej reprezentacji
+	void showDirectedGraph();
+	//Wyœwietlenie grafu nieskierowanego w odpowiedniej reprezentacji
+	void showUndirectedGraph();
 	void dropGraph();
 	void addEdge(int firstVertex, int secondVertex, int weight);
 };

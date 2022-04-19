@@ -5,12 +5,9 @@
 #include <stdio.h>
 using namespace std;
 
-GraphMatrix::GraphMatrix(int numberOfVertices) {
-
-}
-
-GraphMatrix::GraphMatrix(){
+GraphMatrix::GraphMatrix(bool isDirected){
 	weightMatrix = nullptr;
+	this->isDirected = isDirected;
 }
 
 GraphMatrix::~GraphMatrix() {
@@ -62,7 +59,7 @@ void GraphMatrix::generateGraph(int vertices, float density) {
 
 //Wyœwietlenie grafu w odpowiedniej reprezentacji
 void GraphMatrix::showGraph() {
-	cout << "\n   |";
+	cout << "\n    |";
 	for (int i = 0; i < numberOfVertices; i++) printf("  %3d", i);
 	cout << "\n";
 	for (int i = 0; i < numberOfVertices; i++) {
@@ -89,6 +86,7 @@ void GraphMatrix::dropGraph() {
 //Dodaje krawêdŸ grafu
 void GraphMatrix::addEdge(int firstVertex, int secondVertex, int weight) {
 		weightMatrix[firstVertex][secondVertex] = weight;
+		if (isDirected) { weight *= -1; }
 		weightMatrix[secondVertex][firstVertex] = weight;
 		numberOfEdges++;
 }
