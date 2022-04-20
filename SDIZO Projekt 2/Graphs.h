@@ -84,10 +84,6 @@ public:
 	void maximumFlowFordFulkerson();
 
 private:
-	//Wyœwietlenie grafu skierowanego w odpowiedniej reprezentacji
-	void showDirectedGraph();
-	//Wyœwietlenie grafu nieskierowanego w odpowiedniej reprezentacji
-	void showUndirectedGraph();
 	void dropGraph();
 	void addEdge(int firstVertex, int secondVertex, int weight);
 };
