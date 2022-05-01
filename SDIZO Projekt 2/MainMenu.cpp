@@ -148,9 +148,13 @@ void shortestPathMenu() {
 				break;
 			}
 
-			graphMatrix.startingVertex = userInput;
 
-			graphMatrix.shortestPathDijkstra(userInput);
+			graphMatrix.startingVertex = userInput;
+			graphList.startingVertex = userInput;
+			cout << "Reprezentacja macierzowa: \n";
+			graphMatrix.shortestPathDijkstra();
+			cout << "\nReprezentacja listowa: \n";
+			graphList.shortestPathDijkstra();
 		}; break;
 		case 0: return;
 		default: cout << "Nie ma takiej opcji\n";

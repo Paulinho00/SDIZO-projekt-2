@@ -100,3 +100,65 @@ void GraphList::dropGraph() {
 	}
 	delete pointersToList;
 }
+
+//Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Dijkstry
+void GraphList::shortestPathDijkstra() {
+	int* p = new int[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		p[i] = -1;
+	}
+
+	int* d = new int[numberOfVertices];
+	bool* isVertexChecked = new bool[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		d[i] = INT_MAX;
+		isVertexChecked[i] = false;
+	}
+
+	d[startingVertex] = 0;
+
+	for (int i = 0; i < numberOfVertices; i++) {
+		int indexOfVertex = minimumDistance(d, isVertexChecked);
+		isVertexChecked[indexOfVertex] = true;
+		ListElement* edge = pointersToList[indexOfVertex];
+		while (edge) {
+			if (edge->weight > 0 && d[indexOfVertex] + edge->weight < d[edge->key]) {
+				d[edge->key] = d[indexOfVertex] + edge->weight;
+				p[edge->key] = indexOfVertex;
+			}
+			edge = edge->nextElement;
+		}
+	}
+
+	printf("End  Dist  Path\n");
+	for (int i = 0; i < numberOfVertices; i++) {
+		if (d[i] != INT_MAX) {
+			printf("%4d|%5d|", i, d[i]);
+			int neighbor = p[i];
+			string path = " ";
+			while (neighbor != 0 && i != startingVertex) {
+				path = to_string(neighbor) + " " + path;
+				neighbor = p[neighbor];
+			}
+			path = "0 " + path;
+			cout << path << "\n";
+		}
+		else {
+			printf("%4d|    N|\n", i);
+			continue;
+		}
+	}
+}
+
+//Zwraca indeks wierzcholka z najmniejszym dystansem
+int GraphList::minimumDistance(int* d, bool* isVertexChecked) {
+	int min = INT_MAX;
+	int index = 0;
+	for (int i = 0; i < numberOfVertices; i++) {
+		if (!isVertexChecked[i] && d[i] < min) {
+			min = d[i];
+			index = i;
+		}
+	}
+	return index;
+}

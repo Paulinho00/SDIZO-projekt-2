@@ -28,7 +28,7 @@ public:
 	//Wyznaczanie minimalnego drzewa rozpinaj¹cego algorytmem Prima
 	void mstPrim();
 	//Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Dijkstry
-	void shortestPathDijkstra(int startVertex);
+	void shortestPathDijkstra();
 	//Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Bellmana-Forda
 	void shortestPathBellmanFord();
 	//Wyznaczanie maksymalnego przep³ywu algorytmem Forda Fulkersona
@@ -73,7 +73,7 @@ public:
 	GraphList(bool isDirected);
 	~GraphList();
 
-	//Generowanie grafu na podstawie grafu w reprezentacji macierzowej
+	//Losowe generowanie grafu
 	void generateGraph(int** weightMatrix, int numberOfVertices);
 	//Wyœwietlenie grafu
 	void showGraph();
@@ -91,4 +91,6 @@ public:
 private:
 	void dropGraph();
 	void addEdge(int firstVertex, int secondVertex, int weight);
+	//Zwraca indeks wierzcholka z najmniejszym dystansem
+	int minimumDistance(int* d, bool* isVertexChecked);
 };

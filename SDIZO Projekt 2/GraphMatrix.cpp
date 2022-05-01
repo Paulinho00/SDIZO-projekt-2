@@ -108,7 +108,7 @@ void GraphMatrix::allocateArray(int numberOfVertices) {
 }
 
 //Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Dijkstry
-void GraphMatrix::shortestPathDijkstra(int startVertex) {
+void GraphMatrix::shortestPathDijkstra() {
 	int* p = new int[numberOfVertices];
 	for (int i = 0; i < numberOfVertices; i++) {
 		p[i] = -1;
@@ -121,7 +121,7 @@ void GraphMatrix::shortestPathDijkstra(int startVertex) {
 		isVertexChecked[i] = false;
 	}
 	
-	d[startVertex] = 0;
+	d[startingVertex] = 0;
 	
 	for (int i = 0; i < numberOfVertices; i++) {
 		int indexOfVertex = minimumDistance(d, isVertexChecked);
@@ -140,7 +140,7 @@ void GraphMatrix::shortestPathDijkstra(int startVertex) {
 			printf("%4d|%5d|", i, d[i]);
 			int neighbor = p[i];
 			string path = " ";
-			while (neighbor != 0 && i != startVertex) {
+			while (neighbor != 0 && i != startingVertex) {
 				path = to_string(neighbor) + " " + path;
 				neighbor = p[neighbor];
 			}
