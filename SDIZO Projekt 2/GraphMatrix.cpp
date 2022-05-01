@@ -163,17 +163,15 @@ void GraphMatrix::shortestPathBellmanFord() {
 	}
 
 	int* d = new int[numberOfVertices];
-	bool* isVertexChecked = new bool[numberOfVertices];
 	for (int i = 0; i < numberOfVertices; i++) {
 		d[i] = INT_MAX;
-		isVertexChecked[i] = false;
 	}
 
 	d[startingVertex] = 0;
-	bool shouldStop = true;
 
 	//Pêtla relaksuj¹ca ka¿d¹ krawêdŸ V-1 razy
 	for (int i = 0; i < numberOfVertices - 1; i++) {
+		bool shouldStop = true;
 		//Pêtla przechodz¹ca po ka¿dej krawêdzi
 		for (int j = 0; j < numberOfVertices; j++) {
 			for (int k = 0; k < numberOfVertices; k++) {

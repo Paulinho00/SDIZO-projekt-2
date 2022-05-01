@@ -172,6 +172,8 @@ void shortestPathMenu() {
 			cout << "\nAlgorytm Bellmana-Forda\n";
 			cout << "Reprezentacja macierzowa: \n";
 			graphMatrix.shortestPathBellmanFord();
+			cout << "\nReprezentacja listowa: \n";
+			graphList.shortestPathBellmanFord();
 		}; break;
 		case 0: return;
 		default: cout << "Nie ma takiej opcji\n";

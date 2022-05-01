@@ -150,6 +150,71 @@ void GraphList::shortestPathDijkstra() {
 	}
 }
 
+//Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Bellmana-Forda
+void GraphList::shortestPathBellmanFord() {
+	int* p = new int[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		p[i] = -1;
+	}
+
+	int* d = new int[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		d[i] = INT_MAX;
+	}
+
+	d[startingVertex] = 0;
+
+	//Pêtla relaksuj¹ca ka¿d¹ krawêdŸ V-1 razy
+	for (int i = 0; i < numberOfVertices - 1; i++) {
+		bool shouldStop = true;
+		//Pêtla przechodz¹ca po ka¿dej krawêdzi
+		for (int j = 0; j < numberOfVertices; j++) {
+			ListElement* edge = pointersToList[j];
+			while (edge) {
+				if (edge->weight > 0 && d[j] + edge->weight < d[edge->key]) {
+					d[edge->key] = d[j] + edge->weight;
+					p[edge->key] = j;
+					shouldStop = false;
+				}
+				edge = edge->nextElement;
+			}
+		}
+		if (shouldStop) break;
+	}
+
+	//Wykrycie ujemnych cykli
+	for (int i = 0; i < numberOfVertices; i++) {
+		ListElement* edge = pointersToList[i];
+		while(edge) {
+			if (edge->weight > 0 && d[i] != INT_MAX && d[i] + edge->weight < d[edge->key]) {
+				cout << "Wykryto cykl ujemny";
+				return;
+			}
+			edge = edge->nextElement;
+		}
+	}
+
+	printf("End  Dist  Path\n");
+	for (int i = 0; i < numberOfVertices; i++) {
+		if (d[i] != INT_MAX) {
+			printf("%4d|%5d|", i, d[i]);
+			int neighbor = p[i];
+			string path = " ";
+			while (neighbor != 0 && i != startingVertex) {
+				path = to_string(neighbor) + " " + path;
+				neighbor = p[neighbor];
+			}
+			path = "0 " + path;
+			cout << path << "\n";
+		}
+		else {
+			printf("%4d|    N|\n", i);
+			continue;
+		}
+	}
+
+}
+
 //Zwraca indeks wierzcholka z najmniejszym dystansem
 int GraphList::minimumDistance(int* d, bool* isVertexChecked) {
 	int min = INT_MAX;
