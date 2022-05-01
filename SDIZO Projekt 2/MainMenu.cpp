@@ -148,13 +148,30 @@ void shortestPathMenu() {
 				break;
 			}
 
-
 			graphMatrix.startingVertex = userInput;
 			graphList.startingVertex = userInput;
+			
+			cout << "\nAlgorytm Dijkstry\n";
 			cout << "Reprezentacja macierzowa: \n";
 			graphMatrix.shortestPathDijkstra();
 			cout << "\nReprezentacja listowa: \n";
 			graphList.shortestPathDijkstra();
+		}; break;
+		case 5: {
+			cout << "Aktualnie wybrany wierzcholek: " << graphMatrix.startingVertex << "\n";
+			cout << "Podaj wierzcholek startowy:\n";
+			userInput = readUserInput();
+			if (userInput < 0) {
+				cout << "Nieprawdilowe dane\n";
+				break;
+			}
+
+			graphMatrix.startingVertex = userInput;
+			graphList.startingVertex = userInput;
+
+			cout << "\nAlgorytm Bellmana-Forda\n";
+			cout << "Reprezentacja macierzowa: \n";
+			graphMatrix.shortestPathBellmanFord();
 		}; break;
 		case 0: return;
 		default: cout << "Nie ma takiej opcji\n";
