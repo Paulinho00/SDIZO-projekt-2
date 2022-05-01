@@ -12,6 +12,9 @@ class GraphMatrix{
 	//Czy jest skierowany
 	bool isDirected;
 public:
+	int startingVertex;
+	int endingVertex;
+public:
 	GraphMatrix(bool isDirected);
 	~GraphMatrix();
 	//Losowe generowanie grafu
@@ -25,7 +28,7 @@ public:
 	//Wyznaczanie minimalnego drzewa rozpinaj¹cego algorytmem Prima
 	void mstPrim();
 	//Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Dijkstry
-	void shortestPathDijkstra();
+	void shortestPathDijkstra(int startVertex);
 	//Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Bellmana-Forda
 	void shortestPathBellmanFord();
 	//Wyznaczanie maksymalnego przep³ywu algorytmem Forda Fulkersona
@@ -35,6 +38,8 @@ public:
 	int getNumberOfEdges();
 	int getNumberOfVertices();
 private:
+	//Zwraca indeks wierzcholka z najmniejszym dystansem
+	int minimumDistance(int* d, bool* isVertexChecked);
 	//Usuwa graf
 	void dropGraph();
 	//Dodaje krawêdŸ grafu
@@ -61,15 +66,15 @@ class GraphList{
 	int numberOfEdges;
 	//Czy jest skierowany
 	bool isDirected;
-
+public:
+	int startingVertex;
+	int endingVertex;
 public:
 	GraphList(bool isDirected);
 	~GraphList();
 
-	//Losowe generowanie grafu
+	//Generowanie grafu na podstawie grafu w reprezentacji macierzowej
 	void generateGraph(int** weightMatrix, int numberOfVertices);
-	//Odczyt grafu z pliku
-	void readFromFile(std::string fileName);
 	//Wyœwietlenie grafu
 	void showGraph();
 	//Wyznaczanie minimalnego drzewa rozpinaj¹cego algorytmem Kruskala

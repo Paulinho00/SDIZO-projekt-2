@@ -24,7 +24,8 @@ GraphList::~GraphList() {
 	dropGraph();
 }
 
-//Losowe generowanie grafu
+
+//Generowanie grafu na podstawie grafu w reprezentacji macierzowej
 void GraphList::generateGraph(int** weightMatrix, int numberOfVertices) {
 	if (pointersToList != nullptr) dropGraph();
 	this->numberOfVertices = numberOfVertices;
@@ -35,7 +36,10 @@ void GraphList::generateGraph(int** weightMatrix, int numberOfVertices) {
 
 	for (int i = 0; i < numberOfVertices; i++) {
 		ListElement* list = pointersToList[i];
-		for (int j = i; j < numberOfVertices; j++) {
+		int j;
+		if (isDirected) j = 0;
+		else j = i;
+		for (; j < numberOfVertices; j++) {
 			if (weightMatrix[i][j] != INT_MIN) {
 				addEdge(i, j, weightMatrix[i][j]);
 			}
@@ -73,17 +77,18 @@ void GraphList::addEdge(int firstVertex, int secondVertex, int weight) {
 		firstVertexElement->nextElement = new ListElement(secondVertex, weight);
 	}
 
-	if (isDirected) { weight *= -1; }
+	if (!isDirected) {
 
-	if (pointersToList[secondVertex] == nullptr) {
-		pointersToList[secondVertex] = new ListElement(firstVertex, weight);
-	}
-	else {
-		ListElement* secondVertexElement = pointersToList[secondVertex];
-		while (secondVertexElement->nextElement != nullptr) {
-			secondVertexElement = secondVertexElement->nextElement;
+		if (pointersToList[secondVertex] == nullptr) {
+			pointersToList[secondVertex] = new ListElement(firstVertex, weight);
 		}
-		secondVertexElement->nextElement = new ListElement(firstVertex, weight);
+		else {
+			ListElement* secondVertexElement = pointersToList[secondVertex];
+			while (secondVertexElement->nextElement != nullptr) {
+				secondVertexElement = secondVertexElement->nextElement;
+			}
+			secondVertexElement->nextElement = new ListElement(firstVertex, weight);
+		}
 	}
 	
 	numberOfEdges++;

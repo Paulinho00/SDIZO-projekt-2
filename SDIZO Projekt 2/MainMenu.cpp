@@ -1,5 +1,6 @@
 #include "Graphs.h"
 #include <iostream>
+#include <string>
 using namespace std;
 
 int readUserInput() {
@@ -45,6 +46,12 @@ void mstMenu() {
 
 		//Uruchomienie odpowiedniej funkcji w zaleznosci od wyboru
 		switch (userInput) {
+		case 1: {
+			cout << "Podaj nazwe pliku: ";
+			string fileName;
+			cin >> fileName;
+			graphMatrix.readFromFile(fileName);
+		}; break;
 		case 2: {
 			cout << "Podaj ilosc wierzcholkow: ";
 			userInput = readUserInput();
@@ -101,6 +108,13 @@ void shortestPathMenu() {
 
 		//Uruchomienie odpowiedniej funkcji w zaleznosci od wyboru
 		switch (userInput) {
+		case 1: {
+			cout << "Podaj nazwe pliku: ";
+			string fileName;
+			cin >> fileName;
+			graphMatrix.readFromFile(fileName);
+			graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
+		}; break;
 		case 2: {
 			cout << "Podaj ilosc wierzcholkow: ";
 			userInput = readUserInput();
@@ -125,6 +139,19 @@ void shortestPathMenu() {
 			cout << "\nReprezentacja listowa:\n";
 			graphList.showGraph();
 		} break;
+		case 4: {
+			cout << "Aktualnie wybrany wierzcholek: " << graphMatrix.startingVertex << "\n";
+			cout << "Podaj wierzcholek startowy:\n";
+			userInput = readUserInput();
+			if (userInput < 0) {
+				cout << "Nieprawdilowe dane\n";
+				break;
+			}
+
+			graphMatrix.startingVertex = userInput;
+
+			graphMatrix.shortestPathDijkstra(userInput);
+		}; break;
 		case 0: return;
 		default: cout << "Nie ma takiej opcji\n";
 		};

@@ -3,6 +3,8 @@
 #include <time.h>
 #include <iostream>
 #include <stdio.h>
+#include <string>
+#include <fstream>
 using namespace std;
 
 GraphMatrix::GraphMatrix(bool isDirected){
@@ -75,9 +77,9 @@ void GraphMatrix::showGraph() {
 //Usuwa graf
 void GraphMatrix::dropGraph() {
 	for (int i = 0; i < numberOfVertices; i++) {
-		free(weightMatrix[i]);
+		delete weightMatrix[i];
 	}
-	free(weightMatrix);
+	delete weightMatrix;
 	weightMatrix = nullptr;
 	numberOfEdges = 0;
 	numberOfVertices = 0;
@@ -86,8 +88,9 @@ void GraphMatrix::dropGraph() {
 //Dodaje krawêdŸ grafu
 void GraphMatrix::addEdge(int firstVertex, int secondVertex, int weight) {
 		weightMatrix[firstVertex][secondVertex] = weight;
-		if (isDirected) { weight *= -1; }
-		weightMatrix[secondVertex][firstVertex] = weight;
+		if (!isDirected) {
+			weightMatrix[secondVertex][firstVertex] = weight;
+		}
 		numberOfEdges++;
 }
 
@@ -104,6 +107,66 @@ void GraphMatrix::allocateArray(int numberOfVertices) {
 	}
 }
 
+//Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Dijkstry
+void GraphMatrix::shortestPathDijkstra(int startVertex) {
+	int* p = new int[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		p[i] = -1;
+	}
+
+	int* d = new int [numberOfVertices];
+	bool* isVertexChecked = new bool[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		d[i] = INT_MAX;
+		isVertexChecked[i] = false;
+	}
+	
+	d[startVertex] = 0;
+	
+	for (int i = 0; i < numberOfVertices; i++) {
+		int indexOfVertex = minimumDistance(d, isVertexChecked);
+		isVertexChecked[indexOfVertex] = true;
+		for (int j = 0; j < numberOfVertices; j++) {
+			if (weightMatrix[indexOfVertex][j] > 0 && d[indexOfVertex] + weightMatrix[indexOfVertex][j] < d[j]) {
+				d[j] = d[indexOfVertex] + weightMatrix[indexOfVertex][j];
+				p[j] = indexOfVertex;
+			}
+		}
+	}
+
+	printf("End  Dist  Path\n");
+	for (int i = 0; i < numberOfVertices; i++) {
+		if (d[i] != INT_MAX) {
+			printf("%4d|%5d|", i, d[i]);
+			int neighbor = p[i];
+			string path = " ";
+			while (neighbor != 0 && i != startVertex) {
+				path = to_string(neighbor) + " " + path;
+				neighbor = p[neighbor];
+			}
+			path = "0 " + path;
+			cout << path << "\n";
+		} 
+		else {
+			printf("%4d|    N|\n", i);
+			continue;
+		}
+	}
+
+}
+
+int GraphMatrix::minimumDistance(int* d, bool* isVertexChecked) {
+	int min = INT_MAX;
+	int index = 0;
+	for (int i = 0; i < numberOfVertices; i++) {
+		if (!isVertexChecked[i] && d[i] < min) {
+			min = d[i];
+			index = i;
+		}
+	}
+	return index;
+}
+
 int** GraphMatrix::getWeightMatrix() {
 	return weightMatrix;
 }
@@ -114,4 +177,36 @@ int GraphMatrix::getNumberOfEdges() {
 
 int GraphMatrix::getNumberOfVertices() {
 	return numberOfVertices;
+}
+
+//Odczyt grafu z pliku
+void GraphMatrix::readFromFile(string fileName) {
+	if (weightMatrix != nullptr) dropGraph();
+	fstream file;
+	file.open(fileName, ios::in);
+	if (file.is_open()) {
+		int numberOfEdges;
+		file >> numberOfEdges;
+
+		int numberOfVertices;
+		file >> numberOfVertices;
+		allocateArray(numberOfVertices);
+
+		file >> this->startingVertex;
+		file >> this->endingVertex;
+		
+		for (int i = 0; i < numberOfEdges; i++) {
+			int startingVertex;
+			file >> startingVertex;
+			int endingVertex;
+			file >> endingVertex;
+			int weight;
+			file >> weight;
+			addEdge(startingVertex, endingVertex, weight);
+		}
+	}
+	else {
+		cout << "Blad otwarcia pliku\n";
+	}
+
 }
