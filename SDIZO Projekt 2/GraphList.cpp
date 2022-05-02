@@ -148,6 +148,10 @@ void GraphList::shortestPathDijkstra() {
 			continue;
 		}
 	}
+
+	delete[] p;
+	delete[] d;
+	delete[] isVertexChecked;
 }
 
 //Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Bellmana-Forda
@@ -213,6 +217,8 @@ void GraphList::shortestPathBellmanFord() {
 		}
 	}
 
+	delete[] p;
+	delete[] d;
 }
 
 //Zwraca indeks wierzcholka z najmniejszym dystansem
@@ -273,4 +279,8 @@ void GraphList::mstPrim() {
 		sumOfMst += key[i];
 	}
 	cout << "\nMST = " << sumOfMst << "\n";
+
+	delete[] p;
+	delete[] key;
+	delete[] isInSet;
 }

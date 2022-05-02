@@ -153,6 +153,9 @@ void GraphMatrix::shortestPathDijkstra() {
 		}
 	}
 
+	delete[] p;
+	delete[] d;
+	delete[] isVertexChecked;
 }
 
 //Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Bellmana-Forda
@@ -215,6 +218,9 @@ void GraphMatrix::shortestPathBellmanFord() {
 			continue;
 		}
 	}
+
+	delete[] p;
+	delete[] d;
 }
 
 int GraphMatrix::minimumDistance(int* d, bool* isVertexChecked) {
