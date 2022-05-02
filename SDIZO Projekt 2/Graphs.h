@@ -87,10 +87,26 @@ public:
 	void shortestPathBellmanFord();
 	//Wyznaczanie maksymalnego przep³ywu algorytmem Forda Fulkersona
 	void maximumFlowFordFulkerson();
-
 private:
 	void dropGraph();
 	void addEdge(int firstVertex, int secondVertex, int weight);
 	//Zwraca indeks wierzcholka z najmniejszym dystansem
 	int minimumDistance(int* d, bool* isVertexChecked);
 };
+
+//Krawedz grafu
+struct Edge {
+	int startVertex;
+	int endVertex;
+	int weight;
+};
+
+int partitionOfArray(Edge* edgesArray, int low, int high);
+
+void sortEdgesArray(Edge* edgesArray, int low, int high);
+
+//Wyszukiwanie podgrafu dla algorytmu Kruskala
+int findSet(int vertex, int* parentsArray);
+
+//£¹czenie podgrafów dla algorytmu Kruskala
+void unionSubgraphs(int firstVertex, int secondVertex, int* parentsArray, int* ranks);

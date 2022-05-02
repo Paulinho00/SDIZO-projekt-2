@@ -242,8 +242,8 @@ void GraphList::mstPrim() {
 		isInSet[i] = false;
 	}
 
-	key[startingVertex] = 0;
-	p[startingVertex] = -1;
+	key[0] = 0;
+	p[0] = -1;
 
 	for (int i = 0; i < numberOfVertices; i++) {
 		int vertexToSet = minimumDistance(key, isInSet);

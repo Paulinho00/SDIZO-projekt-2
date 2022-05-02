@@ -288,8 +288,8 @@ void GraphMatrix::mstPrim() {
 		isInSet[i] = false;
 	}
 
-	key[startingVertex] = 0;
-	p[startingVertex] = -1;
+	key[0] = 0;
+	p[0] = -1;
 
 	for (int i = 0; i < numberOfVertices-1; i++) {
 		int vertexToSet = minimumDistance(key, isInSet);
@@ -317,4 +317,69 @@ void GraphMatrix::mstPrim() {
 		sumOfMst += key[i];
 	}
 	cout << "\nMST = " << sumOfMst << "\n";
+
+	delete[] p;
+	delete[] key;
+	delete[] isInSet;
 }
+
+
+//Wyznaczanie minimalnego drzewa rozpinaj¹cego algorytmem Kruskala
+void GraphMatrix::mstKruskal() {
+	int* parents = new int[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		parents[i] = i;
+	}
+
+	int* ranks = new int[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		ranks[i] = 0;
+	}
+
+	Edge* edges = new Edge[numberOfEdges];
+	int counterOfEdges = 0;
+	//Tworzenie listy krawedzi
+	for (int i = 0; i < numberOfVertices; i++) {
+		for (int j = i+1; j < numberOfVertices; j++) {
+			if (weightMatrix[i][j] > 0) {
+				edges[counterOfEdges].startVertex = i;
+				edges[counterOfEdges].endVertex = j;
+				edges[counterOfEdges].weight = weightMatrix[i][j];
+				counterOfEdges++;
+			}
+		}
+	}
+	sortEdgesArray(edges, 0, numberOfEdges-1);
+
+	Edge* mstEdges = new Edge[numberOfVertices - 1];
+	int counterOfMstEdges = 0;
+
+	for (int i = 0; i < numberOfEdges; i++) {
+		Edge edgeToBeChecked = edges[i];
+		if (findSet(edgeToBeChecked.startVertex, parents) != findSet(edgeToBeChecked.endVertex, parents)) {
+			mstEdges[counterOfMstEdges] = edgeToBeChecked;
+			unionSubgraphs(edgeToBeChecked.startVertex, edgeToBeChecked.endVertex, parents, ranks);
+			counterOfMstEdges++;
+		}
+	}
+
+	//Wypisanie krawedzi drzewa mst
+	cout << "Edge         Weight\n";
+	for (int i = 0; i < counterOfMstEdges; i++) {
+		printf("(%2d, %2d)   %2d\n", mstEdges[i].startVertex, mstEdges[i].endVertex, mstEdges[i].weight);
+	}
+
+	int sumOfMst = 0;
+	for (int i = 0; i < counterOfMstEdges; i++) {
+		sumOfMst += mstEdges[i].weight;
+	}
+	cout << "\nMST = " << sumOfMst << "\n";
+
+	delete[] parents;
+	delete[] ranks;
+	delete[] edges;
+	delete[] mstEdges;
+}
+
+
+

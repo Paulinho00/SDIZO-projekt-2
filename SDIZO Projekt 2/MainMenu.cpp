@@ -77,18 +77,13 @@ void mstMenu() {
 			cout << "\nReprezentacja listowa:\n";
 			graphList.showGraph();
 		} break;
-		case 5: {
-			cout << "Aktualnie wybrany wierzcholek: " << graphMatrix.startingVertex << "\n";
-			cout << "Podaj wierzcholek startowy:\n";
-			userInput = readUserInput();
-			if (userInput < 0) {
-				cout << "Nieprawdilowe dane\n";
-				break;
-			}
+		case 4: {
+			cout << "\nAlgorytm Kruskala\n";
+			cout << "Reprezentacja macierzowa: \n";
+			graphMatrix.mstKruskal();
 
-			graphMatrix.startingVertex = userInput;
-			graphList.startingVertex = userInput;
-		
+		}; break;
+		case 5: {
 			cout << "\nAlgorytm Prima\n";
 			cout << "Reprezentacja macierzowa: \n";
 			graphMatrix.mstPrim();

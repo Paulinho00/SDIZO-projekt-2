@@ -142,6 +142,8 @@
     <ClCompile Include="GraphList.cpp" />
     <ClCompile Include="GraphMatrix.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="QuickSort.cpp" />
+    <ClCompile Include="SubgraphsOperations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphs.h" />
