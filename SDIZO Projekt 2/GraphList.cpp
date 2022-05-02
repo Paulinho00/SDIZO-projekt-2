@@ -99,6 +99,8 @@ void GraphList::dropGraph() {
 		delete pointersToList[i];
 	}
 	delete pointersToList;
+	numberOfEdges = 0;
+	numberOfVertices = 0;
 }
 
 //Wyznaczanie najkrótszej œcie¿ki w grafie algorytmem Dijkstry
@@ -283,4 +285,64 @@ void GraphList::mstPrim() {
 	delete[] p;
 	delete[] key;
 	delete[] isInSet;
+}
+
+//Wyznaczanie minimalnego drzewa rozpinaj¹cego algorytmem Kruskala
+void GraphList::mstKruskal() {
+	int* parents = new int[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		parents[i] = i;
+	}
+
+	int* ranks = new int[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		ranks[i] = 0;
+	}
+
+	Edge* edges = new Edge[numberOfEdges];
+	int counterOfEdges = 0;
+	//Tworzenie listy krawedzi
+	for (int i = 0; i < numberOfVertices; i++) {
+		ListElement* neighbor = pointersToList[i];
+		while (neighbor) {
+			if (neighbor->key > i) {
+				edges[counterOfEdges].startVertex = i;
+				edges[counterOfEdges].endVertex = neighbor->key;
+				edges[counterOfEdges].weight = neighbor->weight;
+				counterOfEdges++;
+			}
+			neighbor = neighbor->nextElement;
+		}
+	}
+	sortEdgesArray(edges, 0, numberOfEdges - 1);
+
+	Edge* mstEdges = new Edge[numberOfVertices - 1];
+	int counterOfMstEdges = 0;
+
+	for (int i = 0; i < numberOfEdges; i++) {
+		Edge edgeToBeChecked = edges[i];
+		if (findSet(edgeToBeChecked.startVertex, parents) != findSet(edgeToBeChecked.endVertex, parents)) {
+			mstEdges[counterOfMstEdges] = edgeToBeChecked;
+			unionSubgraphs(edgeToBeChecked.startVertex, edgeToBeChecked.endVertex, parents, ranks);
+			counterOfMstEdges++;
+		}
+	}
+
+	//Wypisanie krawedzi drzewa mst
+	cout << "Edge         Weight\n";
+	for (int i = 0; i < counterOfMstEdges; i++) {
+		printf("(%2d, %2d)   %2d\n", mstEdges[i].startVertex, mstEdges[i].endVertex, mstEdges[i].weight);
+	}
+
+	int sumOfMst = 0;
+	for (int i = 0; i < counterOfMstEdges; i++) {
+		sumOfMst += mstEdges[i].weight;
+	}
+	cout << "\nMST = " << sumOfMst << "\n";
+
+	delete[] parents;
+	delete[] ranks;
+	delete[] edges;
+	delete[] mstEdges;
+
 }

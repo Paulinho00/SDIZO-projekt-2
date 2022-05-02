@@ -81,7 +81,8 @@ void mstMenu() {
 			cout << "\nAlgorytm Kruskala\n";
 			cout << "Reprezentacja macierzowa: \n";
 			graphMatrix.mstKruskal();
-
+			cout << "\nReprezentacja listowa: \n";
+			graphList.mstKruskal();
 		}; break;
 		case 5: {
 			cout << "\nAlgorytm Prima\n";
