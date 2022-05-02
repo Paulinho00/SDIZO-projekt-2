@@ -227,3 +227,50 @@ int GraphList::minimumDistance(int* d, bool* isVertexChecked) {
 	}
 	return index;
 }
+
+//Wyznaczanie minimalnego drzewa rozpinaj¹cego algorytmem Prima
+void GraphList::mstPrim() {
+	int* p = new int[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		p[i] = -2;
+	}
+
+	int* key = new int[numberOfVertices];
+	bool* isInSet = new bool[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		key[i] = INT_MAX;
+		isInSet[i] = false;
+	}
+
+	key[startingVertex] = 0;
+	p[startingVertex] = -1;
+
+	for (int i = 0; i < numberOfVertices; i++) {
+		int vertexToSet = minimumDistance(key, isInSet);
+
+		isInSet[vertexToSet] = true;
+
+		ListElement* neighbor = pointersToList[vertexToSet];
+		while (neighbor) {
+			if (!isInSet[neighbor->key] && neighbor->weight < key[neighbor->key]) {
+				p[neighbor->key] = vertexToSet;
+				key[neighbor->key] = neighbor->weight;
+			}
+			neighbor = neighbor->nextElement;
+		}
+	}
+
+	//Wypisanie krawedzi drzewa mst
+	cout << "Edge         Weight\n";
+	for (int i = 0; i < numberOfVertices; i++) {
+		if (key[i] != INT_MAX && key[i] != 0) {
+			printf("(%2d, %2d)   %2d\n", p[i], i, key[i]);
+		}
+	}
+
+	int sumOfMst = 0;
+	for (int i = 0; i < numberOfVertices; i++) {
+		sumOfMst += key[i];
+	}
+	cout << "\nMST = " << sumOfMst << "\n";
+}

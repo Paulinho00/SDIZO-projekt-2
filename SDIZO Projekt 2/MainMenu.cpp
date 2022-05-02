@@ -92,6 +92,8 @@ void mstMenu() {
 			cout << "\nAlgorytm Prima\n";
 			cout << "Reprezentacja macierzowa: \n";
 			graphMatrix.mstPrim();
+			cout << "\nReprezentacja listowa: \n";
+			graphList.mstPrim();
 
 		}; break;
 		case 0: return;
