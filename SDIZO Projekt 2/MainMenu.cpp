@@ -51,6 +51,7 @@ void mstMenu() {
 			string fileName;
 			cin >> fileName;
 			graphMatrix.readFromFile(fileName);
+			graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
 		}; break;
 		case 2: {
 			cout << "Podaj ilosc wierzcholkow: ";
@@ -76,6 +77,23 @@ void mstMenu() {
 			cout << "\nReprezentacja listowa:\n";
 			graphList.showGraph();
 		} break;
+		case 5: {
+			cout << "Aktualnie wybrany wierzcholek: " << graphMatrix.startingVertex << "\n";
+			cout << "Podaj wierzcholek startowy:\n";
+			userInput = readUserInput();
+			if (userInput < 0) {
+				cout << "Nieprawdilowe dane\n";
+				break;
+			}
+
+			graphMatrix.startingVertex = userInput;
+			graphList.startingVertex = userInput;
+		
+			cout << "\nAlgorytm Prima\n";
+			cout << "Reprezentacja macierzowa: \n";
+			graphMatrix.mstPrim();
+
+		}; break;
 		case 0: return;
 		default: cout << "Nie ma takiej opcji\n";
 		};

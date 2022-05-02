@@ -272,3 +272,49 @@ void GraphMatrix::readFromFile(string fileName) {
 	}
 
 }
+
+//Wyznaczanie minimalnego drzewa rozpinaj¹cego algorytmem Prima
+void GraphMatrix::mstPrim() {
+
+	int* p = new int[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		p[i] = -2;
+	}
+
+	int* key = new int[numberOfVertices];
+	bool* isInSet = new bool[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		key[i] = INT_MAX;
+		isInSet[i] = false;
+	}
+
+	key[startingVertex] = 0;
+	p[startingVertex] = -1;
+
+	for (int i = 0; i < numberOfVertices-1; i++) {
+		int vertexToSet = minimumDistance(key, isInSet);
+
+		isInSet[vertexToSet] = true;
+
+		for (int j = 0; j < numberOfVertices; j++) {
+			if (weightMatrix[vertexToSet][j] > 0 && !isInSet[j] && weightMatrix[vertexToSet][j] < key[j]) {
+				p[j] = vertexToSet;
+				key[j] = weightMatrix[vertexToSet][j];
+			}
+		}
+	}
+
+	//Wypisanie krawedzi drzewa mst
+	cout << "Edge         Weight\n";
+	for (int i = 0; i < numberOfVertices; i++) {
+		if (key[i] != INT_MAX && key[i] != 0) {
+			printf("(%2d, %2d)   %2d\n", p[i], i, key[i]);
+		}
+	}
+	
+	int sumOfMst = 0;
+	for (int i = 0; i < numberOfVertices; i++) {
+		sumOfMst += key[i];
+	}
+	cout << "\nMST = " << sumOfMst << "\n";
+}
