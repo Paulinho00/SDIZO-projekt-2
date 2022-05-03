@@ -51,10 +51,11 @@ private:
 struct ListElement {
 	int key;
 	int weight;
-	int currentFlow;
+	int capacity;
 	ListElement* nextElement;
 
 	ListElement(int key, int weight);
+	ListElement(int key, int weight, int capacity);
 	~ListElement();
 };
 
@@ -87,6 +88,8 @@ public:
 	void shortestPathBellmanFord();
 	//Wyznaczanie maksymalnego przep³ywu algorytmem Forda Fulkersona
 	void maximumFlowFordFulkerson();
+	//Resetuje przeplywy po algorytmie Forda-Fulkersona
+	void resetFlows();
 private:
 	void dropGraph();
 	void addEdge(int firstVertex, int secondVertex, int weight);
@@ -112,6 +115,10 @@ int findSet(int vertex, int* parentsArray);
 void unionSubgraphs(int firstVertex, int secondVertex, int* parentsArray, int* ranks);
 
 //Przeszukiwanie w g³¹b
-bool dfs(int** residualGraph, int source, int sink, int parent[], int numberOfVertices);
+bool dfsMatrix(int** residualGraph, int source, int sink, int* parent, int numberOfVertices);
 
-void dfsVisit(int** residualGraph, int source, int* parent, bool* visited, int numberOfVertices);
+void dfsVisitMatrix(int** residualGraph, int source, int* parent, bool* visited, int numberOfVertices);
+
+bool dfsList(ListElement** pointerToList, int source, int sink, int* parent, int numberOfVertices);
+
+void dfsVisitList(ListElement** pointerToList, int source, int* parent, bool* visited, int numberOfVertices);

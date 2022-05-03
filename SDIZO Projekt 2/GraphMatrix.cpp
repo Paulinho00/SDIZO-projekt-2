@@ -404,7 +404,7 @@ void GraphMatrix::maximumFlowFordFulkerson() {
 	int* parent = new int[numberOfVertices];
 	int maxFlow = 0;
 
-	while (dfs(residualGraph, startingVertex, endingVertex, parent, numberOfVertices)) {
+	while (dfsMatrix(residualGraph, startingVertex, endingVertex, parent, numberOfVertices)) {
 		int pathFlow = INT_MAX;
 		for (int i = endingVertex; i != startingVertex; i = parent[i]) {
 			int j = parent[i];
@@ -424,10 +424,10 @@ void GraphMatrix::maximumFlowFordFulkerson() {
 	for (int i = 0; i < numberOfVertices; i++) {
 		for (int j = 0; j < numberOfVertices; j++) {
 			if (weightMatrix[i][j] > 0)
-				printf("(%2d, %2d)   %2d/%2d\n", i, j, weightMatrix[i][j], residualGraph[j][i]);
+				printf("(%2d, %2d)   %2d / %2d\n", i, j, weightMatrix[i][j], residualGraph[j][i]);
 		}
 	}
-	cout << "MAX_FLOW = " << maxFlow;
+	cout << "MAX_FLOW = " << maxFlow << "\n";
 }
 
 

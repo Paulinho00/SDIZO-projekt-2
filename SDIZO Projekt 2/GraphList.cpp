@@ -5,12 +5,18 @@ using namespace std;
 ListElement::ListElement(int key, int weight) {
 	this->key = key;
 	this->weight = weight;
-	currentFlow = 0;
+	capacity = weight;
+	nextElement = nullptr;
+}
+
+ListElement::ListElement(int key, int weight, int capacity){
+	this->key = key;
+	this->weight = weight;
+	this->capacity = capacity;
 	nextElement = nullptr;
 }
 
 ListElement::~ListElement() {
-	delete nextElement;
 }
 
 GraphList::GraphList(bool isDirected) {
@@ -96,9 +102,14 @@ void GraphList::addEdge(int firstVertex, int secondVertex, int weight) {
 
 void GraphList::dropGraph() {
 	for (int i = 0; i < numberOfVertices; i++) {
-		delete pointersToList[i];
+		ListElement* element = pointersToList[i];
+		while (element) {
+			ListElement* temp = element->nextElement;
+			delete element;
+			element = temp;
+		}
 	}
-	delete pointersToList;
+	delete[] pointersToList;
 	numberOfEdges = 0;
 	numberOfVertices = 0;
 }
@@ -345,4 +356,93 @@ void GraphList::mstKruskal() {
 	delete[] edges;
 	delete[] mstEdges;
 
+}
+
+//Wyznaczanie maksymalnego przep³ywu algorytmem Forda Fulkersona
+void GraphList::maximumFlowFordFulkerson() {
+
+	int* parent = new int[numberOfVertices];
+	int maxFlow = 0;
+
+	while (dfsList(pointersToList, startingVertex, endingVertex, parent, numberOfVertices)) {
+		int pathFlow = INT_MAX;
+		for (int i = endingVertex; i != startingVertex; i = parent[i]) {
+			int j = parent[i];
+			ListElement* secondVertex = pointersToList[j];
+			while (secondVertex->key != i) {
+				secondVertex = secondVertex->nextElement;
+			}
+			pathFlow = min(pathFlow, secondVertex->capacity);
+		}
+
+		for (int i = endingVertex; i != startingVertex; i = parent[i]) {
+			int j = parent[i];
+			ListElement* secondVertex = pointersToList[j];
+			while (secondVertex->key != i) {
+				secondVertex = secondVertex->nextElement;
+			}
+			secondVertex->capacity -= pathFlow;
+
+			ListElement* firstVertex = pointersToList[i];
+			ListElement* previousElement = nullptr;
+			while (firstVertex && firstVertex->key != j)
+			{	
+				previousElement = firstVertex;
+				firstVertex = firstVertex->nextElement;
+			}
+
+			if (firstVertex) {
+				firstVertex->capacity += pathFlow;
+			}
+			else {
+				ListElement* residualEdge = new ListElement(j, 0, pathFlow);
+				if(!pointersToList[i])
+					pointersToList[i] = residualEdge;
+				else {
+					previousElement->nextElement = residualEdge;
+				}
+			}
+		}
+
+		maxFlow += pathFlow;
+	}
+
+	cout << "Edge       Flow (max / used)\n";
+	for (int i = 0; i < numberOfVertices; i++) {
+		ListElement* adjacencyElement = pointersToList[i];
+		while (adjacencyElement) {
+			if (adjacencyElement->weight > 0) {
+				printf("(%2d, %2d)   %2d / %2d\n", i, adjacencyElement->key, adjacencyElement->weight, adjacencyElement->weight-adjacencyElement->capacity);
+			}
+			adjacencyElement = adjacencyElement->nextElement;
+		}
+	}
+	cout << "MAX_FLOW = " << maxFlow << "\n";
+}
+
+//Resetuje przeplywy po algorytmie Forda-Fulkersona
+void GraphList::resetFlows() {
+	for (int i = 0; i < numberOfVertices; i++) {
+		ListElement* adjacencyElement = pointersToList[i];
+		ListElement* previousElement = nullptr;
+		while (adjacencyElement) {
+			if (adjacencyElement->weight == 0) {
+				if (previousElement == nullptr) {
+					pointersToList[i] = adjacencyElement->nextElement;
+					delete adjacencyElement;
+					adjacencyElement = pointersToList[i];
+				}
+				else {
+					previousElement->nextElement = adjacencyElement->nextElement;
+					delete adjacencyElement;
+					adjacencyElement = previousElement;
+				}
+			}
+			else {
+				adjacencyElement->capacity = adjacencyElement->weight;
+			}
+			previousElement = adjacencyElement;
+			adjacencyElement = adjacencyElement->nextElement;
+		}
+	}
 }

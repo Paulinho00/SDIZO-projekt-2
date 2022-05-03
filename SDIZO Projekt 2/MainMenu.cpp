@@ -254,10 +254,34 @@ void flowMenu() {
 			graphList.showGraph();
 		} break;
 		case 4: {
+			cout << "Aktualnie wybrany wierzcholek: " << graphMatrix.startingVertex << "\n";
+			cout << "Podaj wierzcholek startowy:\n";
+			userInput = readUserInput();
+			if (userInput < 0) {
+				cout << "Nieprawdilowe dane\n";
+				break;
+			}
+
+			graphMatrix.startingVertex = userInput;
+			graphList.startingVertex = userInput;
+
+			cout << "Aktualnie wybrany wierzcholek: " << graphMatrix.endingVertex << "\n";
+			cout << "Podaj wierzcholek koncowy:\n";
+			userInput = readUserInput();
+			if (userInput < 0) {
+				cout << "Nieprawdilowe dane\n";
+				break;
+			}
+
+			graphMatrix.endingVertex = userInput;
+			graphList.endingVertex = userInput;
+
 			cout << "\nAlgorytm Forda-Fulkersona\n";
 			cout << "Reprezentacja macierzowa: \n";
 			graphMatrix.maximumFlowFordFulkerson();
 			cout << "\nReprezentacja listowa: \n";
+			graphList.maximumFlowFordFulkerson();
+			graphList.resetFlows();
 		}; break;
 		case 0: return;
 		default: cout << "Nie ma takiej opcji\n";
