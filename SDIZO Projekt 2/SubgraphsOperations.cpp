@@ -25,3 +25,35 @@ void unionSubgraphs(int firstVertex, int secondVertex, int* parentsArray, int* r
 		ranks[parentOfFirstVertex] = ranks[parentOfFirstVertex] + 1;
 	}
 }
+
+bool dfs(int** residualGraph, int source, int sink, int* parent, int numberOfVertices) {
+	bool* visited = new bool[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		visited[i] = false;
+	}
+
+	visited[source] = true;
+	parent[source] = -1;
+	for (int i = 0; i < numberOfVertices; i++) {
+		if (!visited[i] && residualGraph[source][i] > 0) {
+			parent[i] = source;
+			visited[i] = true;
+			dfsVisit(residualGraph, i, parent, visited, numberOfVertices);
+			if (visited[sink]) return true;
+		}
+
+	}
+
+	return (visited[sink] == true);
+}
+
+void dfsVisit(int** residualGraph, int source, int* parent, bool* visited, int numberOfVertices) {
+	
+	for (int i = 0; i < numberOfVertices; i++) {
+		if (!visited[i] && residualGraph[source][i] > 0) {
+			parent[i] = source;
+			visited[i] = true;
+			dfsVisit(residualGraph, i, parent, visited, numberOfVertices);
+		}
+	}
+}

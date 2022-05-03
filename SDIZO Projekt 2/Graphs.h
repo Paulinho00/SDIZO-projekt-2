@@ -110,3 +110,8 @@ int findSet(int vertex, int* parentsArray);
 
 //£¹czenie podgrafów dla algorytmu Kruskala
 void unionSubgraphs(int firstVertex, int secondVertex, int* parentsArray, int* ranks);
+
+//Przeszukiwanie w g³¹b
+bool dfs(int** residualGraph, int source, int sink, int parent[], int numberOfVertices);
+
+void dfsVisit(int** residualGraph, int source, int* parent, bool* visited, int numberOfVertices);

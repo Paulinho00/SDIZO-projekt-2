@@ -387,5 +387,48 @@ void GraphMatrix::mstKruskal() {
 	delete[] mstEdges;
 }
 
+//Wyznaczanie maksymalnego przep³ywu algorytmem Forda Fulkersona
+void GraphMatrix::maximumFlowFordFulkerson() {
+	int** residualGraph = new int*[numberOfVertices];
+	for (int i = 0; i < numberOfVertices; i++) {
+		residualGraph[i] = new int[numberOfVertices];
+		for (int j = 0; j < numberOfVertices; j++) {
+			if (weightMatrix[i][j] != INT_MIN)
+				residualGraph[i][j] = weightMatrix[i][j];
+			else
+				residualGraph[i][j] = 0;
+			
+		}
+	}
+
+	int* parent = new int[numberOfVertices];
+	int maxFlow = 0;
+
+	while (dfs(residualGraph, startingVertex, endingVertex, parent, numberOfVertices)) {
+		int pathFlow = INT_MAX;
+		for (int i = endingVertex; i != startingVertex; i = parent[i]) {
+			int j = parent[i];
+			pathFlow = min(pathFlow, residualGraph[j][i]);
+		}
+
+		for (int i = endingVertex; i != startingVertex; i = parent[i]) {
+			int j = parent[i];
+			residualGraph[j][i] -= pathFlow;
+			residualGraph[i][j] += pathFlow;
+		}
+
+		maxFlow += pathFlow;
+	}
+
+	cout << "Edge       Flow (max / used)\n";
+	for (int i = 0; i < numberOfVertices; i++) {
+		for (int j = 0; j < numberOfVertices; j++) {
+			if (weightMatrix[i][j] > 0)
+				printf("(%2d, %2d)   %2d/%2d\n", i, j, weightMatrix[i][j], residualGraph[j][i]);
+		}
+	}
+	cout << "MAX_FLOW = " << maxFlow;
+}
+
 
 
