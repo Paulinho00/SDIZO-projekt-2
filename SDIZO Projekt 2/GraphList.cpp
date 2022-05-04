@@ -419,7 +419,7 @@ void GraphList::maximumFlowFordFulkerson() {
 				edge = edge->nextElement;
 			}
 			if (adjacencyElement == nullptr) continue;
-			if (edge->weight == 0) continue;
+			if (edge == nullptr ||edge->weight == 0) continue;
 			printf("(%2d, %2d)   %2d / %2d\n", i, j, edge->weight, adjacencyElement->capacity);
 		}
 	}
