@@ -409,12 +409,18 @@ void GraphList::maximumFlowFordFulkerson() {
 
 	cout << "Edge       Flow (max / used)\n";
 	for (int i = 0; i < numberOfVertices; i++) {
-		ListElement* adjacencyElement = pointersToList[i];
-		while (adjacencyElement) {
-			if (adjacencyElement->weight > 0) {
-				printf("(%2d, %2d)   %2d / %2d\n", i, adjacencyElement->key, adjacencyElement->weight, adjacencyElement->weight-adjacencyElement->capacity);
+		for (int j = 0; j < numberOfVertices; j++) {
+			ListElement* adjacencyElement = pointersToList[j];
+			while (adjacencyElement && adjacencyElement->key != i) {
+				adjacencyElement = adjacencyElement->nextElement;
 			}
-			adjacencyElement = adjacencyElement->nextElement;
+			ListElement* edge = pointersToList[i];
+			while (edge && edge->key != j) {
+				edge = edge->nextElement;
+			}
+			if (adjacencyElement == nullptr) continue;
+			if (edge->weight == 0) continue;
+			printf("(%2d, %2d)   %2d / %2d\n", i, j, edge->weight, adjacencyElement->capacity);
 		}
 	}
 	cout << "MAX_FLOW = " << maxFlow << "\n";
