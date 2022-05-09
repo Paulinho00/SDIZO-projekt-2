@@ -336,15 +336,17 @@ int main()
 
 	long long int frequency, start, elapsed;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&frequency);
-	float density = 0.99;
+	float density = 0.25;
 	double sum = 0;
 	double unit = 1000.0;
 
 	for (int i = 0; i < 100; i++) {
 		GraphMatrix graphMatrix(false);
 		graphMatrix.generateGraph(50, density);
+		GraphMatrix graphList(false);
+		graphList.generateGraph(50, density);
 		start = read_QPC();
-		graphMatrix.mstKruskal();
+		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
 		sum += (unit * elapsed)/ frequency;
 	}
@@ -354,8 +356,10 @@ int main()
 	for (int i = 0; i < 100; i++) {
 		GraphMatrix graphMatrix(false);
 		graphMatrix.generateGraph(100, density);
+		GraphMatrix graphList(false);
+		graphList.generateGraph(100, density);
 		start = read_QPC();
-		graphMatrix.mstKruskal();
+		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
 		sum += (unit * elapsed) / frequency;
 	}
@@ -365,8 +369,10 @@ int main()
 	for (int i = 0; i < 100; i++) {
 		GraphMatrix graphMatrix(false);
 		graphMatrix.generateGraph(150, density);
+		GraphMatrix graphList(false);
+		graphList.generateGraph(150, density);
 		start = read_QPC();
-		graphMatrix.mstKruskal();
+		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
 		sum += (unit * elapsed) / frequency;
 	}
@@ -376,8 +382,10 @@ int main()
 	for (int i = 0; i < 100; i++) {
 		GraphMatrix graphMatrix(false);
 		graphMatrix.generateGraph(200, density);
+		GraphMatrix graphList(false);
+		graphList.generateGraph(200, density);
 		start = read_QPC();
-		graphMatrix.mstKruskal();
+		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
 		sum += (unit * elapsed) / frequency;
 	}
@@ -387,8 +395,10 @@ int main()
 	for (int i = 0; i < 100; i++) {
 		GraphMatrix graphMatrix(false);
 		graphMatrix.generateGraph(250, density);
+		GraphMatrix graphList(false);
+		graphList.generateGraph(250, density);
 		start = read_QPC();
-		graphMatrix.mstKruskal();
+		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
 		sum += (unit * elapsed) / frequency;
 	}
@@ -398,8 +408,10 @@ int main()
 	for (int i = 0; i < 100; i++) {
 		GraphMatrix graphMatrix(false);
 		graphMatrix.generateGraph(300, density);
+		GraphMatrix graphList(false);
+		graphList.generateGraph(300, density);
 		start = read_QPC();
-		graphMatrix.mstKruskal();
+		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
 		sum += (unit * elapsed) / frequency;
 	}
@@ -409,8 +421,10 @@ int main()
 	for (int i = 0; i < 100; i++) {
 		GraphMatrix graphMatrix(false);
 		graphMatrix.generateGraph(350, density);
+		GraphMatrix graphList(false);
+		graphList.generateGraph(350, density);
 		start = read_QPC();
-		graphMatrix.mstKruskal();
+		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
 		sum += (unit * elapsed) / frequency;
 	}
@@ -420,8 +434,10 @@ int main()
 	for (int i = 0; i < 100; i++) {
 		GraphMatrix graphMatrix(false);
 		graphMatrix.generateGraph(400, density);
+		GraphMatrix graphList(false);
+		graphList.generateGraph(400, density);
 		start = read_QPC();
-		graphMatrix.mstKruskal();
+		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
 		sum += (unit * elapsed) / frequency;
 	}
