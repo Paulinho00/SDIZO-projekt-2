@@ -1,6 +1,9 @@
 #include "Graphs.h"
 #include <iostream>
 #include <string>
+#include <windows.h>
+#include <iomanip>
+
 using namespace std;
 
 int readUserInput() {
@@ -320,9 +323,108 @@ void mainMenu() {
 	}
 }
 
+long long int read_QPC()
+{
+	LARGE_INTEGER count;
+	QueryPerformanceCounter(&count);
+	return((long long int)count.QuadPart);
+}
 
 
 int main()
 {
-	mainMenu();
+
+	long long int frequency, start, elapsed;
+	QueryPerformanceFrequency((LARGE_INTEGER*)&frequency);
+	float density = 0.99;
+	double sum = 0;
+	double unit = 1000.0;
+
+	for (int i = 0; i < 100; i++) {
+		GraphMatrix graphMatrix(false);
+		graphMatrix.generateGraph(50, density);
+		start = read_QPC();
+		graphMatrix.mstKruskal();
+		elapsed = read_QPC() - start;
+		sum += (unit * elapsed)/ frequency;
+	}
+	sum /= 100;
+	cout << "Dla 50: " << sum << "us" << endl << endl;
+
+	for (int i = 0; i < 100; i++) {
+		GraphMatrix graphMatrix(false);
+		graphMatrix.generateGraph(100, density);
+		start = read_QPC();
+		graphMatrix.mstKruskal();
+		elapsed = read_QPC() - start;
+		sum += (unit * elapsed) / frequency;
+	}
+	sum /= 100;
+	cout << "Dla 100: " << sum << "us" << endl << endl;
+
+	for (int i = 0; i < 100; i++) {
+		GraphMatrix graphMatrix(false);
+		graphMatrix.generateGraph(150, density);
+		start = read_QPC();
+		graphMatrix.mstKruskal();
+		elapsed = read_QPC() - start;
+		sum += (unit * elapsed) / frequency;
+	}
+	sum /= 100;
+	cout << "Dla 150: " << sum << "us" << endl << endl;
+
+	for (int i = 0; i < 100; i++) {
+		GraphMatrix graphMatrix(false);
+		graphMatrix.generateGraph(200, density);
+		start = read_QPC();
+		graphMatrix.mstKruskal();
+		elapsed = read_QPC() - start;
+		sum += (unit * elapsed) / frequency;
+	}
+	sum /= 100;
+	cout << "Dla 200: " << sum << "us" << endl << endl;
+
+	for (int i = 0; i < 100; i++) {
+		GraphMatrix graphMatrix(false);
+		graphMatrix.generateGraph(250, density);
+		start = read_QPC();
+		graphMatrix.mstKruskal();
+		elapsed = read_QPC() - start;
+		sum += (unit * elapsed) / frequency;
+	}
+	sum /= 100;
+	cout << "Dla 250: " << sum << "us" << endl << endl;
+
+	for (int i = 0; i < 100; i++) {
+		GraphMatrix graphMatrix(false);
+		graphMatrix.generateGraph(300, density);
+		start = read_QPC();
+		graphMatrix.mstKruskal();
+		elapsed = read_QPC() - start;
+		sum += (unit * elapsed) / frequency;
+	}
+	sum /= 100;
+	cout << "Dla 300: " << sum << "us" << endl << endl;
+
+	for (int i = 0; i < 100; i++) {
+		GraphMatrix graphMatrix(false);
+		graphMatrix.generateGraph(350, density);
+		start = read_QPC();
+		graphMatrix.mstKruskal();
+		elapsed = read_QPC() - start;
+		sum += (unit * elapsed) / frequency;
+	}
+	sum /= 100;
+	cout << "Dla 350: " << sum << "us" << endl << endl;
+
+	for (int i = 0; i < 100; i++) {
+		GraphMatrix graphMatrix(false);
+		graphMatrix.generateGraph(400, density);
+		start = read_QPC();
+		graphMatrix.mstKruskal();
+		elapsed = read_QPC() - start;
+		sum += (unit * elapsed) / frequency;
+	}
+	sum /= 100;
+	cout << "Dla 400: " << sum << "us" << endl << endl;
 }

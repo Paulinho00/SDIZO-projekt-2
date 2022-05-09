@@ -311,7 +311,7 @@ void GraphMatrix::mstPrim() {
 	}
 
 	//Wypisanie krawedzi drzewa mst
-	cout << "Edge         Weight\n";
+	/*cout << "Edge         Weight\n";
 	for (int i = 0; i < numberOfVertices; i++) {
 		if (key[i] != INT_MAX && key[i] != 0) {
 			printf("(%2d, %2d)   %2d\n", p[i], i, key[i]);
@@ -323,7 +323,7 @@ void GraphMatrix::mstPrim() {
 		sumOfMst += key[i];
 	}
 	cout << "\nMST = " << sumOfMst << "\n";
-
+	*/
 	delete[] p;
 	delete[] key;
 	delete[] isInSet;
@@ -369,17 +369,17 @@ void GraphMatrix::mstKruskal() {
 		}
 	}
 
-	//Wypisanie krawedzi drzewa mst
-	cout << "Edge         Weight\n";
-	for (int i = 0; i < counterOfMstEdges; i++) {
-		printf("(%2d, %2d)   %2d\n", mstEdges[i].startVertex, mstEdges[i].endVertex, mstEdges[i].weight);
-	}
+	////Wypisanie krawedzi drzewa mst
+	//cout << "Edge         Weight\n";
+	//for (int i = 0; i < counterOfMstEdges; i++) {
+	//	printf("(%2d, %2d)   %2d\n", mstEdges[i].startVertex, mstEdges[i].endVertex, mstEdges[i].weight);
+	//}
 
-	int sumOfMst = 0;
-	for (int i = 0; i < counterOfMstEdges; i++) {
-		sumOfMst += mstEdges[i].weight;
-	}
-	cout << "\nMST = " << sumOfMst << "\n";
+	//int sumOfMst = 0;
+	//for (int i = 0; i < counterOfMstEdges; i++) {
+	//	sumOfMst += mstEdges[i].weight;
+	//}
+	//cout << "\nMST = " << sumOfMst << "\n";
 
 	delete[] parents;
 	delete[] ranks;
