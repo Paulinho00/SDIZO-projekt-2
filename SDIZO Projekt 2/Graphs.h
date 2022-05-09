@@ -59,6 +59,13 @@ struct ListElement {
 	~ListElement();
 };
 
+//Krawedz grafu
+struct Edge {
+	int startVertex;
+	int endVertex;
+	int weight;
+};
+
 //Graf w reprezentacji listowej
 class GraphList{
 	//Wskazniki na listy s¹siadów wierzcho³ków
@@ -67,6 +74,7 @@ class GraphList{
 	int numberOfEdges;
 	//Czy jest skierowany
 	bool isDirected;
+	Edge* edges;
 public:
 	int startingVertex;
 	int endingVertex;
@@ -95,14 +103,11 @@ private:
 	void addEdge(int firstVertex, int secondVertex, int weight);
 	//Zwraca indeks wierzcholka z najmniejszym dystansem
 	int minimumDistance(int* d, bool* isVertexChecked);
+	//Tworzy polaczona liste krawedzi do algorytmu Kruskala
+	Edge* createEdgeList();
 };
 
-//Krawedz grafu
-struct Edge {
-	int startVertex;
-	int endVertex;
-	int weight;
-};
+
 
 int partitionOfArray(Edge* edgesArray, int low, int high);
 

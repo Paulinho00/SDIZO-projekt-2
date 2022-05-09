@@ -51,6 +51,7 @@ void GraphList::generateGraph(int** weightMatrix, int numberOfVertices) {
 			}
 		}
 	}
+	edges = createEdgeList();
 }
 
 //Wyœwietlenie grafu
@@ -310,21 +311,6 @@ void GraphList::mstKruskal() {
 		ranks[i] = 0;
 	}
 
-	Edge* edges = new Edge[numberOfEdges];
-	int counterOfEdges = 0;
-	//Tworzenie listy krawedzi
-	for (int i = 0; i < numberOfVertices; i++) {
-		ListElement* neighbor = pointersToList[i];
-		while (neighbor) {
-			if (neighbor->key > i) {
-				edges[counterOfEdges].startVertex = i;
-				edges[counterOfEdges].endVertex = neighbor->key;
-				edges[counterOfEdges].weight = neighbor->weight;
-				counterOfEdges++;
-			}
-			neighbor = neighbor->nextElement;
-		}
-	}
 	sortEdgesArray(edges, 0, numberOfEdges - 1);
 
 	Edge* mstEdges = new Edge[numberOfVertices - 1];
@@ -451,4 +437,23 @@ void GraphList::resetFlows() {
 			adjacencyElement = adjacencyElement->nextElement;
 		}
 	}
+}
+
+Edge* GraphList::createEdgeList() {
+	Edge* edges = new Edge[numberOfEdges];
+	int counterOfEdges = 0;
+	//Tworzenie listy krawedzi
+	for (int i = 0; i < numberOfVertices; i++) {
+		ListElement* neighbor = pointersToList[i];
+		while (neighbor) {
+			if (neighbor->key > i) {
+				edges[counterOfEdges].startVertex = i;
+				edges[counterOfEdges].endVertex = neighbor->key;
+				edges[counterOfEdges].weight = neighbor->weight;
+				counterOfEdges++;
+			}
+			neighbor = neighbor->nextElement;
+		}
+	}
+	return edges;
 }
