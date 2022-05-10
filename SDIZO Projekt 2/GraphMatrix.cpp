@@ -134,24 +134,24 @@ void GraphMatrix::shortestPathDijkstra() {
 		}
 	}
 
-	printf("End  Dist  Path\n");
-	for (int i = 0; i < numberOfVertices; i++) {
-		if (d[i] != INT_MAX) {
-			printf("%4d|%5d|", i, d[i]);
-			int neighbor = p[i];
-			string path = " ";
-			while (neighbor != 0 && i != startingVertex) {
-				path = to_string(neighbor) + " " + path;
-				neighbor = p[neighbor];
-			}
-			path = "0 " + path;
-			cout << path << "\n";
-		} 
-		else {
-			printf("%4d|    N|\n", i);
-			continue;
-		}
-	}
+	//printf("End  Dist  Path\n");
+	//for (int i = 0; i < numberOfVertices; i++) {
+	//	if (d[i] != INT_MAX) {
+	//		printf("%4d|%5d|", i, d[i]);
+	//		int neighbor = p[i];
+	//		string path = " ";
+	//		while (neighbor != 0 && i != startingVertex) {
+	//			path = to_string(neighbor) + " " + path;
+	//			neighbor = p[neighbor];
+	//		}
+	//		path = "0 " + path;
+	//		cout << path << "\n";
+	//	} 
+	//	else {
+	//		printf("%4d|    N|\n", i);
+	//		continue;
+	//	}
+	//}
 
 	delete[] p;
 	delete[] d;
@@ -200,7 +200,7 @@ void GraphMatrix::shortestPathBellmanFord() {
 		}
 	}
 
-	printf("End  Dist  Path\n");
+	/*printf("End  Dist  Path\n");
 	for (int i = 0; i < numberOfVertices; i++) {
 		if (d[i] != INT_MAX) {
 			printf("%4d|%5d|", i, d[i]);
@@ -217,7 +217,7 @@ void GraphMatrix::shortestPathBellmanFord() {
 			printf("%4d|    N|\n", i);
 			continue;
 		}
-	}
+	}*/
 
 	delete[] p;
 	delete[] d;
@@ -342,49 +342,32 @@ void GraphMatrix::mstKruskal() {
 		ranks[i] = 0;
 	}
 
-	Edge* edges = new Edge[numberOfEdges];
-	int counterOfEdges = 0;
-	//Tworzenie listy krawedzi
-	for (int i = 0; i < numberOfVertices; i++) {
-		for (int j = i+1; j < numberOfVertices; j++) {
-			if (weightMatrix[i][j] > 0) {
-				edges[counterOfEdges].startVertex = i;
-				edges[counterOfEdges].endVertex = j;
-				edges[counterOfEdges].weight = weightMatrix[i][j];
-				counterOfEdges++;
+	int sumOfMst = 0;
+	int counterOfMstEdges = 0;
+	while (counterOfMstEdges < numberOfVertices - 1) {
+		int min = INT_MAX;
+		int a = -1;
+		int b = -1;
+		for (int i = 0; i < numberOfVertices; i++) {
+			for (int j = 0; j < numberOfVertices; j++) {
+				if (findSet(i, parents) != findSet(j, parents) && weightMatrix[i][j] != INT_MIN && weightMatrix[i][j] < min) {
+					min = weightMatrix[i][j];
+					a = i;
+					b = j;
+				}
 			}
 		}
+		
+		unionSubgraphs(a, b, parents, ranks);
+		printf("(%2d, %2d)   %2d\n", a, b, min);
+		counterOfMstEdges++;
+		sumOfMst += min;
 	}
-	sortEdgesArray(edges, 0, numberOfEdges-1);
-
-	Edge* mstEdges = new Edge[numberOfVertices - 1];
-	int counterOfMstEdges = 0;
-
-	for (int i = 0; i < numberOfEdges; i++) {
-		Edge edgeToBeChecked = edges[i];
-		if (findSet(edgeToBeChecked.startVertex, parents) != findSet(edgeToBeChecked.endVertex, parents)) {
-			mstEdges[counterOfMstEdges] = edgeToBeChecked;
-			unionSubgraphs(edgeToBeChecked.startVertex, edgeToBeChecked.endVertex, parents, ranks);
-			counterOfMstEdges++;
-		}
-	}
-
-	////Wypisanie krawedzi drzewa mst
-	//cout << "Edge         Weight\n";
-	//for (int i = 0; i < counterOfMstEdges; i++) {
-	//	printf("(%2d, %2d)   %2d\n", mstEdges[i].startVertex, mstEdges[i].endVertex, mstEdges[i].weight);
-	//}
-
-	//int sumOfMst = 0;
-	//for (int i = 0; i < counterOfMstEdges; i++) {
-	//	sumOfMst += mstEdges[i].weight;
-	//}
-	//cout << "\nMST = " << sumOfMst << "\n";
+	
+	cout << "\nMST = " << sumOfMst << "\n";
 
 	delete[] parents;
 	delete[] ranks;
-	delete[] edges;
-	delete[] mstEdges;
 }
 
 //Wyznaczanie maksymalnego przep³ywu algorytmem Forda Fulkersona

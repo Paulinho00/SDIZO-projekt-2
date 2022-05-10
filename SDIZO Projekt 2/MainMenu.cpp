@@ -333,18 +333,20 @@ long long int read_QPC()
 
 int main()
 {
+	mainMenu();
 
 	long long int frequency, start, elapsed;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&frequency);
 	float density = 0.25;
 	double sum = 0;
 	double unit = 1000.0;
+	bool isDirected = false;
 
 	for (int i = 0; i < 100; i++) {
-		GraphMatrix graphMatrix(false);
+		GraphMatrix graphMatrix(isDirected);
 		graphMatrix.generateGraph(50, density);
-		GraphMatrix graphList(false);
-		graphList.generateGraph(50, density);
+		GraphList graphList(isDirected);
+		graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
 		start = read_QPC();
 		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
@@ -354,10 +356,10 @@ int main()
 	cout << "Dla 50: " << sum << "us" << endl << endl;
 
 	for (int i = 0; i < 100; i++) {
-		GraphMatrix graphMatrix(false);
+		GraphMatrix graphMatrix(isDirected);
 		graphMatrix.generateGraph(100, density);
-		GraphMatrix graphList(false);
-		graphList.generateGraph(100, density);
+		GraphList graphList(isDirected);
+		graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
 		start = read_QPC();
 		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
@@ -367,10 +369,10 @@ int main()
 	cout << "Dla 100: " << sum << "us" << endl << endl;
 
 	for (int i = 0; i < 100; i++) {
-		GraphMatrix graphMatrix(false);
+		GraphMatrix graphMatrix(isDirected);
 		graphMatrix.generateGraph(150, density);
-		GraphMatrix graphList(false);
-		graphList.generateGraph(150, density);
+		GraphList graphList(isDirected);
+		graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
 		start = read_QPC();
 		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
@@ -380,10 +382,10 @@ int main()
 	cout << "Dla 150: " << sum << "us" << endl << endl;
 
 	for (int i = 0; i < 100; i++) {
-		GraphMatrix graphMatrix(false);
+		GraphMatrix graphMatrix(isDirected);
 		graphMatrix.generateGraph(200, density);
-		GraphMatrix graphList(false);
-		graphList.generateGraph(200, density);
+		GraphList graphList(isDirected);
+		graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
 		start = read_QPC();
 		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
@@ -393,10 +395,10 @@ int main()
 	cout << "Dla 200: " << sum << "us" << endl << endl;
 
 	for (int i = 0; i < 100; i++) {
-		GraphMatrix graphMatrix(false);
+		GraphMatrix graphMatrix(isDirected);
 		graphMatrix.generateGraph(250, density);
-		GraphMatrix graphList(false);
-		graphList.generateGraph(250, density);
+		GraphList graphList(isDirected);
+		graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
 		start = read_QPC();
 		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
@@ -406,10 +408,10 @@ int main()
 	cout << "Dla 250: " << sum << "us" << endl << endl;
 
 	for (int i = 0; i < 100; i++) {
-		GraphMatrix graphMatrix(false);
+		GraphMatrix graphMatrix(isDirected);
 		graphMatrix.generateGraph(300, density);
-		GraphMatrix graphList(false);
-		graphList.generateGraph(300, density);
+		GraphList graphList(isDirected);
+		graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
 		start = read_QPC();
 		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
@@ -419,10 +421,10 @@ int main()
 	cout << "Dla 300: " << sum << "us" << endl << endl;
 
 	for (int i = 0; i < 100; i++) {
-		GraphMatrix graphMatrix(false);
+		GraphMatrix graphMatrix(isDirected);
 		graphMatrix.generateGraph(350, density);
-		GraphMatrix graphList(false);
-		graphList.generateGraph(350, density);
+		GraphList graphList(isDirected);
+		graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
 		start = read_QPC();
 		graphList.mstKruskal();
 		elapsed = read_QPC() - start;
@@ -432,10 +434,10 @@ int main()
 	cout << "Dla 350: " << sum << "us" << endl << endl;
 
 	for (int i = 0; i < 100; i++) {
-		GraphMatrix graphMatrix(false);
+		GraphMatrix graphMatrix(isDirected);
 		graphMatrix.generateGraph(400, density);
-		GraphMatrix graphList(false);
-		graphList.generateGraph(400, density);
+		GraphList graphList(isDirected);
+		graphList.generateGraph(graphMatrix.getWeightMatrix(), graphMatrix.getNumberOfVertices());
 		start = read_QPC();
 		graphList.mstKruskal();
 		elapsed = read_QPC() - start;

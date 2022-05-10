@@ -280,7 +280,7 @@ void GraphList::mstPrim() {
 		}
 	}
 
-	//Wypisanie krawedzi drzewa mst
+	////Wypisanie krawedzi drzewa mst
 	cout << "Edge         Weight\n";
 	for (int i = 0; i < numberOfVertices; i++) {
 		if (key[i] != INT_MAX && key[i] != 0) {
