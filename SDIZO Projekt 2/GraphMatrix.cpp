@@ -342,32 +342,49 @@ void GraphMatrix::mstKruskal() {
 		ranks[i] = 0;
 	}
 
-	int sumOfMst = 0;
-	int counterOfMstEdges = 0;
-	while (counterOfMstEdges < numberOfVertices - 1) {
-		int min = INT_MAX;
-		int a = -1;
-		int b = -1;
-		for (int i = 0; i < numberOfVertices; i++) {
-			for (int j = 0; j < numberOfVertices; j++) {
-				if (findSet(i, parents) != findSet(j, parents) && weightMatrix[i][j] != INT_MIN && weightMatrix[i][j] < min) {
-					min = weightMatrix[i][j];
-					a = i;
-					b = j;
-				}
+	Edge* edges = new Edge[numberOfEdges];
+	int counterOfEdges = 0;
+	//Tworzenie listy krawedzi
+	for (int i = 0; i < numberOfVertices; i++) {
+		for (int j = i+1; j < numberOfVertices; j++) {
+			if (weightMatrix[i][j] > 0) {
+				edges[counterOfEdges].startVertex = i;
+				edges[counterOfEdges].endVertex = j;
+				edges[counterOfEdges].weight = weightMatrix[i][j];
+				counterOfEdges++;
 			}
 		}
+	}
+	sortEdgesArray(edges, 0, numberOfEdges-1);
 
-		unionSubgraphs(a, b, parents, ranks);
-		printf("(%2d, %2d)   %2d\n", a, b, min);
-		counterOfMstEdges++;
-		sumOfMst += min;
+	Edge* mstEdges = new Edge[numberOfVertices - 1];
+	int counterOfMstEdges = 0;
+
+	for (int i = 0; i < numberOfEdges; i++) {
+		Edge edgeToBeChecked = edges[i];
+		if (findSet(edgeToBeChecked.startVertex, parents) != findSet(edgeToBeChecked.endVertex, parents)) {
+			mstEdges[counterOfMstEdges] = edgeToBeChecked;
+			unionSubgraphs(edgeToBeChecked.startVertex, edgeToBeChecked.endVertex, parents, ranks);
+			counterOfMstEdges++;
+		}
 	}
 
+	//Wypisanie krawedzi drzewa mst
+	cout << "Edge         Weight\n";
+	for (int i = 0; i < counterOfMstEdges; i++) {
+		printf("(%2d, %2d)   %2d\n", mstEdges[i].startVertex, mstEdges[i].endVertex, mstEdges[i].weight);
+	}
+
+	int sumOfMst = 0;
+	for (int i = 0; i < counterOfMstEdges; i++) {
+		sumOfMst += mstEdges[i].weight;
+	}
 	cout << "\nMST = " << sumOfMst << "\n";
 
 	delete[] parents;
 	delete[] ranks;
+	delete[] edges;
+	delete[] mstEdges;
 }
 
 //Wyznaczanie maksymalnego przep³ywu algorytmem Forda Fulkersona
